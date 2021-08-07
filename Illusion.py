@@ -89,6 +89,7 @@ async def start_illusion():
         try:
             print("Booting Up The Client 2")
             await ydk.start()
+            await hdk(functions.channels.JoinChannelRequest(channel="@OP_SQUAD"))
             botme = await ydk.get_me()
             botid = telethon.utils.get_peer_id(botme)
             SMEX_USERS.append(botid)
