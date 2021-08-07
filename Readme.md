@@ -13,7 +13,7 @@
 No Requirement of API ID and API HASH
 
    - Generate on Repl [![Run on Repl.it](https://repl.it/badge/github/mythex09/illusion-spam)](https://replit.com/@mythex09/IllusionSpamBot)
-
+   - for using botmode generate string from here [![Run on Repl.it](https://repl.it/badge/github/mythex09/illusion-spam)](https://replit.com/@mythex09/Bot-Session)
 
 ## Support Group
    - Soon
