@@ -9,9 +9,12 @@ from telethon.tl.functions.account import UpdateProfileRequest
 from Config import STRING, SUDO, BIO_MESSAGE, API_ID, API_HASH, STRING2, STRING3, STRING4 ,STRING5, STRING6, STRING7, STRING8 ,STRING9, STRING10
 import asyncio
 import telethon.utils
+from telethon.utils import get_input_document
 from telethon.tl import functions
 from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon.tl.functions.messages import ImportChatInviteRequest
+from telethon.tl.functions.messages import GetStickerSetRequest
+from telethon.tl.types import InputStickerSetID, InputStickerSetShortName
 from Utils import RAID, RRAID
 
 
@@ -89,7 +92,7 @@ async def start_illusion():
         try:
             print("Booting Up The Client 2")
             await ydk.start()
-            await hdk(functions.channels.JoinChannelRequest(channel="@OP_SQUAD"))
+            await ydk(functions.channels.JoinChannelRequest(channel="@OP_SQUAD"))
             botme = await ydk.get_me()
             botid = telethon.utils.get_peer_id(botme)
             SMEX_USERS.append(botid)
@@ -424,9 +427,41 @@ async def _(e):
                 await event.edit(str(e))   
         else:
             await e.reply(usage, parse_mode=None, link_preview=None )
+
+
+@idk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+@ydk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+@wdk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+@hdk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+@sdk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+@adk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+@bdk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+@cdk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+@edk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+@ddk.on(events.NewMessage(incoming=True, pattern=r"\.sspam"))
+async def _(e):
+    x = await e.get_reply_message()
+    if not (x and x.media and hasattr(x.media, "document")):
+        return await eod(e, "`Reply To Sticker Only`")
+    set = x.document.attributes[1]
+    sset = await e.client(
+        GetStickerSetRequest(
+            InputStickerSetID(
+                id=set.stickerset.id,
+                access_hash=set.stickerset.access_hash,
+            )
+        )
+    )
+    pack = sset.set.short_name
+    docs = [
+        get_input_document(x)
+        for x in (
+            await e.client(GetStickerSetRequest(InputStickerSetShortName(pack)))
+        ).documents
+    ]
+    for xx in docs:
+        await e.respond(file=(xx))
             
-                
-        
         
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.spam"))
 @ydk.on(events.NewMessage(incoming=True, pattern=r"\.spam"))
@@ -744,8 +779,12 @@ async def ping(e):
         end = datetime.now()
         ms = (end-start).microseconds / 1000
         await event.edit(f"""
-█▀█ █▀█ █▄░█ █▀▀
-█▀▀ █▄█ █░▀█ █▄█\n`{ms}` 𝗺𝘀\n𝖎𝖑𝖑𝖚𝖘𝖎𝖔𝖓 𝖘𝖕𝖆𝖒 🔥""")
+██████╗░░█████╗░███╗░░██╗░██████╗░
+██╔══██╗██╔══██╗████╗░██║██╔════╝░
+██████╔╝██║░░██║██╔██╗██║██║░░██╗░
+██╔═══╝░██║░░██║██║╚████║██║░░╚██╗
+██║░░░░░╚█████╔╝██║░╚███║╚██████╔╝
+╚═╝░░░░░░╚════╝░╚═╝░░╚══╝░╚═════╝░\n`{ms}` 𝗺𝘀\n𝖎𝖑𝖑𝖚𝖘𝖎𝖔𝖓 𝖘𝖕𝖆𝖒""")
 
 
 
@@ -834,12 +873,12 @@ async def help(e):
     
         
 text = """
-██╗██╗░░░░░██╗░░░██╗░██████╗███╗░░██╗
-██║██║░░░░░██║░░░██║██╔════╝████╗░██║
-██║██║░░░░░██║░░░██║╚█████╗░██╔██╗██║
-██║██║░░░░░██║░░░██║░╚═══██╗██║╚████║
-██║███████╗╚██████╔╝██████╔╝██║░╚███║
-╚═╝╚══════╝░╚═════╝░╚═════╝░╚═╝░░╚══╝"""
+██╗██╗░░░░░██╗░░░░░██╗░░░██╗░██████╗██╗░█████╗░███╗░░██╗
+██║██║░░░░░██║░░░░░██║░░░██║██╔════╝██║██╔══██╗████╗░██║
+██║██║░░░░░██║░░░░░██║░░░██║╚█████╗░██║██║░░██║██╔██╗██║
+██║██║░░░░░██║░░░░░██║░░░██║░╚═══██╗██║██║░░██║██║╚████║
+██║███████╗███████╗╚██████╔╝██████╔╝██║╚█████╔╝██║░╚███║
+╚═╝╚══════╝╚══════╝░╚═════╝░╚═════╝░╚═╝░╚════╝░╚═╝░░╚══╝"""
 
 print(text)
 print("")
